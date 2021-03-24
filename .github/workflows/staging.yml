@@ -1,0 +1,15 @@
+name: Staging Pipeline
+
+on: [pull_request]
+
+jobs:
+  linting:
+    name: Syntax check (Eslint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: yarn
+      - name: Run Eslint
+        run: yarn lint
+      

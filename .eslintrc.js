@@ -23,6 +23,7 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-unused-vars-experimental': 'error',
     '@typescript-eslint/no-unused-vars': 'off',

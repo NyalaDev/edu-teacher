@@ -1,17 +1,18 @@
 import { MdDesktopMac } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { AiOutlinePlusSquare, AiOutlineLogout } from 'react-icons/ai';
+import { useTranslation } from 'react-i18next';
 
 const sideBarItems = [
   {
     id: 1,
-    title: 'Courses',
+    title: 'courses',
     Icon: MdDesktopMac,
     path: '/',
   },
   {
     id: 2,
-    title: 'New course',
+    title: 'addCourse',
     Icon: AiOutlinePlusSquare,
     path: '/new-course',
   },
@@ -23,6 +24,7 @@ type ComponentProps = {
 
 const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
   const location = useLocation();
+  const { t } = useTranslation();
   const userName = 'Khalid Elshafie';
 
   return (
@@ -59,7 +61,7 @@ const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
                   } focus:shadow-outline`}
                 >
                   <Item.Icon />
-                  {isOpen && <span>{Item.title}</span>}
+                  {isOpen && <span>{t(Item.title)}</span>}
                 </Link>
               </li>
             );
@@ -71,7 +73,9 @@ const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
           <span className="text-red-500 text-xl">
             <AiOutlineLogout />
           </span>
-          {isOpen && <span className="text-red-500 text-xl">Logout</span>}
+          {isOpen && (
+            <span className="text-red-500 text-xl">{t('signOut')}</span>
+          )}
         </div>
       </a>
     </div>

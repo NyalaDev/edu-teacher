@@ -1,28 +1,23 @@
-import styled from 'styled-components';
-
-const StyledButton = styled.button`
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: 0 !important;
-`;
-
 type ComponentProps = {
   onClick: () => void;
   disabled?: boolean;
+  className?: string;
 };
 
 const Clickable: React.FunctionComponent<ComponentProps> = ({
   onClick,
   children,
   disabled,
+  className,
 }) => (
-  <StyledButton type="button" onClick={onClick} disabled={disabled}>
+  <button
+    className={`border-none outline-none focus:outline-none ${className}`}
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+  >
     {children}
-  </StyledButton>
+  </button>
 );
 
 export default Clickable;

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { setLocalStorage } from '../services/storage.service';
-import { DEFAULT_LANGUAGE } from '../common/constants';
+import { LocaleStorage } from '../common/constants';
 
 type HookReturnValues = {
   changeLanguage: (lang: string) => void;
@@ -16,7 +16,7 @@ const useLanguage = (): HookReturnValues => {
 
   const setCurrentLanguage = (locale: string) => {
     i18n.changeLanguage(locale);
-    setLocalStorage(DEFAULT_LANGUAGE, locale);
+    setLocalStorage(LocaleStorage.DEFAULT_LANGUAGE, locale);
   };
 
   return {

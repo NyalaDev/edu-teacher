@@ -1,4 +1,9 @@
-export const DEFAULT_LANGUAGE = 'edu-admin:siteLang';
+export const LocaleStorage = {
+  DEFAULT_LANGUAGE: 'edu-admin:siteLang',
+  AUTH_TOKEN: 'edu-admin:authToken',
+  USER_INFO: 'edu-admin:user',
+};
+
 export const appLanguages = [
   {
     label: 'العربية',
@@ -21,3 +26,8 @@ export const appLanguages = [
     icon: 'sw.svg',
   },
 ];
+
+export const Config = {
+  API_URL: process.env.REACT_APP_STRAPI_API,
+  FRONT_END_URL: process.env.REACT_APP_FRONT_END_URL || '',
+};

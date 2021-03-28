@@ -2,6 +2,10 @@ import { MdDesktopMac } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { AiOutlinePlusSquare, AiOutlineLogout } from 'react-icons/ai';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+import Clickable from './Clickable';
+import { Config } from '../../common/constants';
 
 const sideBarItems = [
   {
@@ -25,7 +29,12 @@ type ComponentProps = {
 const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
   const location = useLocation();
   const { t } = useTranslation();
-  const userName = 'Khalid Elshafie';
+  const { user, logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    window.location.assign(Config.FRONT_END_URL);
+  };
 
   return (
     <div
@@ -44,7 +53,7 @@ const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
         </div>
         <div className="flex items-center justify-center p-2 mb-2">
           <h4 className="text-white capitalize font-poppins">
-            {isOpen ? userName : userName.charAt(0)}
+            {isOpen ? user.name : user.name.charAt(0)}
           </h4>
         </div>
         <ul className="space-y-2 text-sm ">
@@ -68,7 +77,10 @@ const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
           })}
         </ul>
       </div>
-      <a href="/" className="block p-4 text-center bg-gray-900">
+      <Clickable
+        className="block p-4 text-center bg-gray-900"
+        onClick={handleLogout}
+      >
         <div className="flex items-center justify-around">
           <span className="text-red-500 text-xl">
             <AiOutlineLogout />
@@ -77,7 +89,7 @@ const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
             <span className="text-red-500 text-xl">{t('signOut')}</span>
           )}
         </div>
-      </a>
+      </Clickable>
     </div>
   );
 };

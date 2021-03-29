@@ -4,7 +4,7 @@ type ComponentProps = {
   className?: string;
 };
 
-const Clickable: React.FunctionComponent<ComponentProps> = ({
+const Clickable: React.FC<ComponentProps> = ({
   onClick,
   children,
   disabled,

@@ -1,6 +1,6 @@
 import { MdDesktopMac } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
-import { AiOutlinePlusSquare, AiOutlineLogout } from 'react-icons/ai';
+import { AiOutlineLogout } from 'react-icons/ai';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -14,19 +14,13 @@ const sideBarItems = [
     Icon: MdDesktopMac,
     path: '/',
   },
-  {
-    id: 2,
-    title: 'addCourse',
-    Icon: AiOutlinePlusSquare,
-    path: '/new-course',
-  },
 ];
 
 type ComponentProps = {
   isOpen: boolean;
 };
 
-const Sidebar: React.FunctionComponent<ComponentProps> = ({ isOpen }) => {
+const Sidebar: React.FC<ComponentProps> = ({ isOpen }) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { user, logout } = useContext(AuthContext);

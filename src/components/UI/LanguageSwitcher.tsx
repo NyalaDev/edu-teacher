@@ -3,7 +3,7 @@ import { appLanguages } from '../../common/constants';
 import useLanguage from '../../hooks/useLanguage';
 import Clickable from './Clickable';
 
-const LanguageSwitcher: React.FunctionComponent = () => {
+const LanguageSwitcher: React.FC = () => {
   const { isRtl, language, changeLanguage } = useLanguage();
 
   const [open, setOpen] = useState(false);

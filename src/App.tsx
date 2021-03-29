@@ -8,8 +8,8 @@ import { Home, NewCourse } from './pages';
 import useLanguage from './hooks/useLanguage';
 import { AuthProvider } from './contexts/AuthContext';
 
-const App: React.FunctionComponent = () => {
-  const [sideBarOpen, setSidebarOpen] = useState(true);
+const App: React.FC = () => {
+  const [sideBarOpen, setSidebarOpen] = useState(false);
   const { isRtl } = useLanguage();
   const toggleSideBar = () => {
     setSidebarOpen(!sideBarOpen);
@@ -30,7 +30,7 @@ const App: React.FunctionComponent = () => {
                 </Clickable>
                 <LanguageSwitcher />
               </div>
-              <div className="bg-white m-3 p-3">
+              <div className="m-3 p-3">
                 <Switch>
                   <ProtectedRoute path="/" exact>
                     <Home />

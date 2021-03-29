@@ -9,11 +9,7 @@ type ComponentProps = {
   exact?: boolean;
 };
 
-const PrivateRoute: React.FunctionComponent<ComponentProps> = ({
-  children,
-  path,
-  exact,
-}) => {
+const PrivateRoute: React.FC<ComponentProps> = ({ children, path, exact }) => {
   const [checking, setChecking] = useState(true);
   const location = useLocation();
 

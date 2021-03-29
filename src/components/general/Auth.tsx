@@ -7,7 +7,7 @@ import { ActivityIndicator } from '../UI';
 import { getProfile } from '../../services/api.service';
 import { AuthContext } from '../../contexts/AuthContext';
 
-const Auth: React.FunctionComponent = () => {
+const Auth: React.FC = () => {
   const location = useLocation();
   const history = useHistory();
   const { updateUser } = useContext(AuthContext);

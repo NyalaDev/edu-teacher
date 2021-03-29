@@ -3,7 +3,7 @@ type ComponentProps = {
   size?: number;
 };
 
-const ActivityIndicator: React.FunctionComponent<ComponentProps> = ({
+const ActivityIndicator: React.FC<ComponentProps> = ({
   active,
   children,
   size = 12,

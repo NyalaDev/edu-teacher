@@ -1,4 +1,4 @@
-const NewCourse: React.FunctionComponent = () => {
+const NewCourse: React.FC = () => {
   return <div>NewCourse</div>;
 };
 

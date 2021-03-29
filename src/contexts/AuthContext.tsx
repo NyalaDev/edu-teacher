@@ -5,18 +5,18 @@ import {
   getLocalStorage,
   clearLocalStorage,
 } from '../services/storage.service';
-import { ApiProfile } from '../types/api.types';
+import { Profile } from '../types/api.types';
 
 type ContextType = {
-  user: ApiProfile;
-  updateUser: (user: ApiProfile) => void;
+  user: Profile;
+  updateUser: (user: Profile) => void;
   logout: () => void;
 };
 
 const initialState: ContextType = {
-  user: {} as ApiProfile,
+  user: {} as Profile,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
-  updateUser: (user: ApiProfile) => {},
+  updateUser: (user: Profile) => {},
   logout: () => {},
 };
 
@@ -26,15 +26,15 @@ const getUserFromLocaleStorageIfExist = () => {
   try {
     const user = JSON.parse(
       getLocalStorage(LocaleStorage.USER_INFO)
-    ) as ApiProfile;
+    ) as Profile;
     return user;
   } catch (e) {
     return initialState.user;
   }
 };
 
-export const AuthProvider: React.FunctionComponent = ({ children }) => {
-  const [user, updateUser] = useState<ApiProfile>(
+export const AuthProvider: React.FC = ({ children }) => {
+  const [user, updateUser] = useState<Profile>(
     getUserFromLocaleStorageIfExist()
   );
 

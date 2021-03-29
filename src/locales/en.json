@@ -45,5 +45,6 @@
     "invalid_auth": "Invalid username/password. Please try again"
   },
   "yes": "yes",
-  "no": "no"
+  "no": "no",
+  "filterCourses": "Filter courses"
 }

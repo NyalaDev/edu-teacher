@@ -40,7 +40,7 @@ const Home: React.FC<ComponentProps> = ({ course }) => {
           />
 
           <Badge
-            text="Published"
+            text={course.status}
             color={`${course.status === 'Published' ? 'green' : 'red'}-600`}
           />
         </div>

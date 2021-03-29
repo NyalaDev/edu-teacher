@@ -33,7 +33,7 @@ export type Lecture = {
   position: number;
 };
 
-type CourseStatus = 'Published' | 'Draft' | 'Coming Soon';
+type CourseStatus = 'Published' | 'Draft' | 'Upcoming';
 export type Course = {
   id: number;
   title: string;

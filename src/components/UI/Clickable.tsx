@@ -1,8 +1,6 @@
-type ComponentProps = {
-  onClick: () => void;
-  disabled?: boolean;
+interface ComponentProps extends React.InputHTMLAttributes<HTMLButtonElement> {
   className?: string;
-};
+}
 
 const Clickable: React.FC<ComponentProps> = ({
   onClick,

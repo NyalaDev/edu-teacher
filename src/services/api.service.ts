@@ -28,7 +28,7 @@ export const getProfile = async (token: string): Promise<Profile> => {
 
 export const getCourses = async (): Promise<[Course]> => {
   const { data } = await axiosInstance().get(
-    `/teacher?_sort=status,created_at:desc`
+    `/teacher?_sort=status:asc,created_at:desc`
   );
   return data;
 };

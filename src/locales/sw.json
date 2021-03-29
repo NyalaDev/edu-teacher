@@ -45,5 +45,6 @@
     "invalid_auth": "Jina/Nyuwila imekosewa. Tafadhali jaribu tena"
   },
   "yes": "yes",
-  "no": "no"
+  "no": "no",
+  "filterCourses": "Filter courses"
 }

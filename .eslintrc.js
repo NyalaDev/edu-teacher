@@ -28,5 +28,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars-experimental': 'error',
     '@typescript-eslint/no-unused-vars': 'off',
     'no-unused-vars': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
+  ignorePatterns: ['.eslintrc.js'],
 };

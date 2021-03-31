@@ -25,3 +25,13 @@ export const getLocalisedLanguageName = (locale: string): string => {
   const language = appLanguages.find(lang => lang.locale === locale);
   return language ? language.label : '';
 };
+
+export const extractErrorMessage = (err: any): string => {
+  try {
+    const { response } = err;
+    const { data } = response;
+    return data.message;
+  } catch (error) {
+    return 'Something went wrong';
+  }
+};

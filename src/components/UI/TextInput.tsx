@@ -1,15 +1,13 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import useLanguage from '../../hooks/useLanguage';
 
-interface ComponentProps
+interface Props
   extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   label?: string;
-  forceLtr?: boolean;
   error?: string;
   wrapperClasses?: string;
 }
 
-const TextInput: React.FC<ComponentProps> = ({
+const TextInput: React.FC<Props> = ({
   type,
   label,
   placeholder,
@@ -17,7 +15,6 @@ const TextInput: React.FC<ComponentProps> = ({
   onChange,
   error,
   prefix,
-  forceLtr,
   width,
   wrapperClasses,
   ...rest
@@ -25,9 +22,9 @@ const TextInput: React.FC<ComponentProps> = ({
   const inputWidth = width || (prefix ? 'w-11/12' : 'w-full');
   const { isRtl } = useLanguage();
   return (
-    <div className={`${wrapperClasses || 'w-full'}`}>
+    <div className={`my-4 ${wrapperClasses || 'w-full'}`}>
       {label && (
-        <label htmlFor={name} className="font-bold text-grey-darker block mb-2">
+        <label htmlFor={name} className="font-bold text-grey-darker block mb-1">
           {label}
         </label>
       )}
@@ -72,7 +69,6 @@ TextInput.defaultProps = {
   placeholder: '',
   error: '',
   prefix: '',
-  forceLtr: false,
   width: '',
   wrapperClasses: '',
 };

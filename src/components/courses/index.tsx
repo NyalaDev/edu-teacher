@@ -1,4 +1,4 @@
 import CourseCard from './CourseCard';
+import CourseForm from './CourseForm';
 
-// eslint-disable-next-line import/prefer-default-export
-export { CourseCard };
+export { CourseCard, CourseForm };

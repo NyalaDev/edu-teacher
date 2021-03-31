@@ -5,6 +5,7 @@ import ActivityIndicator from './ActivityIndicator';
 import Badge from './Badge';
 import HtmlViewer from './HtmlViewer';
 import TextInput from './TextInput';
+import AutoCompleteInput from './AutoCompleteInput';
 
 export {
   Sidebar,
@@ -14,4 +15,5 @@ export {
   Badge,
   HtmlViewer,
   TextInput,
+  AutoCompleteInput,
 };

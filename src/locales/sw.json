@@ -46,5 +46,6 @@
   },
   "yes": "yes",
   "no": "no",
-  "filterCourses": "Filter courses"
+  "filterCourses": "Filter courses",
+  "courseLevel": "Course Level"
 }

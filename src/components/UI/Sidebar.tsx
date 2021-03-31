@@ -16,11 +16,11 @@ const sideBarItems = [
   },
 ];
 
-type ComponentProps = {
+type Props = {
   isOpen: boolean;
 };
 
-const Sidebar: React.FC<ComponentProps> = ({ isOpen }) => {
+const Sidebar: React.FC<Props> = ({ isOpen }) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { user, logout } = useContext(AuthContext);
@@ -47,7 +47,7 @@ const Sidebar: React.FC<ComponentProps> = ({ isOpen }) => {
         </div>
         <div className="flex items-center justify-center p-2 mb-2">
           <h4 className="text-white capitalize font-poppins">
-            {isOpen ? user.name : user.name.charAt(0)}
+            {isOpen ? user.name : user.name?.charAt(0) || ''}
           </h4>
         </div>
         <ul className="space-y-2 text-sm ">

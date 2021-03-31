@@ -7,10 +7,10 @@ import {
   getYoutubeThumbnail,
 } from '../../common/helpers';
 
-type ComponentProps = {
+type Props = {
   course: Course;
 };
-const Home: React.FC<ComponentProps> = ({ course }) => {
+const Home: React.FC<Props> = ({ course }) => {
   const isRtlCourse = course.language.iso2 === 'ar';
   const { isRtl } = useLanguage();
   const firstLecture = course.lectures[0];
@@ -24,7 +24,7 @@ const Home: React.FC<ComponentProps> = ({ course }) => {
       <Link to="/">
         <img
           className="w-full h-56"
-          src={getYoutubeThumbnail(firstLecture.url)}
+          src={getYoutubeThumbnail(firstLecture?.url)}
           alt={course.title}
         />
       </Link>

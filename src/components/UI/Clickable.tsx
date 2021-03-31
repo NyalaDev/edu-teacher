@@ -1,8 +1,8 @@
-interface ComponentProps extends React.InputHTMLAttributes<HTMLButtonElement> {
+interface Props extends React.InputHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-const Clickable: React.FC<ComponentProps> = ({
+const Clickable: React.FC<Props> = ({
   onClick,
   children,
   disabled,

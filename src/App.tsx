@@ -1,7 +1,9 @@
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { ToastContainer } from 'react-toastify';
 import { Sidebar, Clickable, LanguageSwitcher } from './components/UI';
 import { ProtectedRoute, Auth } from './components/general';
 import { Home, NewCourse } from './pages';
@@ -45,6 +47,7 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
+          <ToastContainer />
         </div>
       </Router>
     </AuthProvider>

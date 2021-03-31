@@ -1,7 +1,7 @@
 import { AiOutlineClose } from 'react-icons/ai';
 import Clickable from './Clickable';
 
-type ComponentProps = {
+type Props = {
   text: string;
   color?: string;
   languageBadge?: string;
@@ -9,7 +9,7 @@ type ComponentProps = {
   onClose?: () => void;
 };
 
-const Badge: React.FC<ComponentProps> = ({
+const Badge: React.FC<Props> = ({
   text,
   color: colorToUse,
   languageBadge,

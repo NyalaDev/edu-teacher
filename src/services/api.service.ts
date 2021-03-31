@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Config, LocaleStorage } from '../common/constants';
-import { Profile, Course } from '../types/api.types';
+import { Profile, Course, Language } from '../types/api.types';
 import { getLocalStorage } from './storage.service';
 
 const axiosInstance = () => {
@@ -30,5 +30,13 @@ export const getCourses = async (): Promise<[Course]> => {
   const { data } = await axiosInstance().get(
     `/teacher?_sort=status:asc,created_at:desc`
   );
+  return data;
+};
+
+export const saveCourse = async (course: any): Promise<void> =>
+  axiosInstance().post(`/courses`, course);
+
+export const getLanguages = async (): Promise<[Language]> => {
+  const { data } = await axiosInstance().get(`/languages`);
   return data;
 };

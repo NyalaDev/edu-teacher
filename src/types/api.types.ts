@@ -34,10 +34,12 @@ export type Lecture = {
 };
 
 type CourseStatus = 'Published' | 'Draft' | 'Upcoming';
+type CourseLevel = 'Beginner' | 'Intermediate' | 'Advanced';
+
 export type Course = {
   id: number;
   title: string;
-  level: string;
+  level: CourseLevel;
   slug: string;
   status: CourseStatus;
   description: string;

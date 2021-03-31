@@ -43,5 +43,6 @@
   "errors": { "generic": "حدث خطأ, الرجاء المحاول مرة أخري" },
   "yes": "نعم",
   "no": "لا",
-  "filterCourses": "إبحث عن كورس"
+  "filterCourses": "إبحث عن كورس",
+  "courseLevel": "درجة الكورس"
 }

@@ -77,7 +77,11 @@ const Home: React.FC = () => {
       </div>
       <div className="grid md:grid-cols-4 sm:grid-cols-1 gap-4">
         {courses &&
-          courses.map(course => <CourseCard key={course.id} course={course} />)}
+          courses.map(course => (
+            <Link to={`/manage/${course.slug}`}>
+              <CourseCard key={course.id} course={course} />
+            </Link>
+          ))}
       </div>
     </ActivityIndicator>
   );

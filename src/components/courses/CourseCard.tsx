@@ -21,13 +21,12 @@ const Home: React.FC<Props> = ({ course }) => {
         isRtl ? 'rtl' : 'ltr'
       }`}
     >
-      <Link to="/">
-        <img
-          className="w-full h-56"
-          src={getYoutubeThumbnail(firstLecture?.url)}
-          alt={course.title}
-        />
-      </Link>
+      <img
+        className="w-full h-56"
+        src={getYoutubeThumbnail(firstLecture?.url)}
+        alt={course.title}
+      />
+
       <div className="px-6 py-4">
         <div className="title text-xl mb-2">
           <Link to="/">{course.title}</Link>

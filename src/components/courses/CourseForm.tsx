@@ -6,18 +6,21 @@ import { toast } from 'react-toastify';
 import { ActivityIndicator, TextInput, AutoCompleteInput } from '../UI';
 import { AutoCompleteOption } from '../UI/AutoCompleteInput';
 import { Course, Language } from '../../types/api.types';
-import { saveCourse } from '../../services/api.service';
+import { saveCourse, updateCourse } from '../../services/api.service';
 import { extractErrorMessage } from '../../common/helpers';
-
-const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
+import { CourseLevels } from '../../common/constants';
 
 type Props = {
   languages: [Language] | undefined;
   course?: Course;
-  onSaveSuccess: () => void;
+  handleUpdateCourse: (updatedCourse: Course) => void;
 };
 
-const CourseForm: React.FC<Props> = ({ languages, course, onSaveSuccess }) => {
+const CourseForm: React.FC<Props> = ({
+  languages,
+  course,
+  handleUpdateCourse,
+}) => {
   const { t } = useTranslation();
 
   const isNewCourse = course && !course.id;
@@ -33,7 +36,7 @@ const CourseForm: React.FC<Props> = ({ languages, course, onSaveSuccess }) => {
       description: course?.description || '',
       github_repo: course?.github_repo || '',
       language: (course?.language && course?.language.id) || 0,
-      level: LEVELS[0],
+      level: (course && course.level) || CourseLevels[0],
     },
     validationSchema: Yup.object().shape({
       language: Yup.number().min(1, 'Language is required').required(),
@@ -42,18 +45,19 @@ const CourseForm: React.FC<Props> = ({ languages, course, onSaveSuccess }) => {
       github_repo: Yup.string().url('Enter a valid url please'),
       description: Yup.string().min(10).required(),
     }),
-    onSubmit: async values => {
+    onSubmit: async (values: Partial<Course>) => {
       try {
         const courseData = { ...values };
         if (isNewCourse) {
           courseData.slug = slugify(values.slug);
-          await saveCourse(courseData);
+
+          const data = await saveCourse(courseData);
+
+          handleUpdateCourse(data);
         } else {
-          console.log('Should update');
-          // await updateCourse(courseData, course.id);
+          const data = await updateCourse(courseData, course.id);
+          handleUpdateCourse(data);
         }
-        formik.resetForm();
-        onSaveSuccess();
       } catch (err) {
         const message = extractErrorMessage(err);
         toast.error(message);
@@ -159,7 +163,7 @@ const CourseForm: React.FC<Props> = ({ languages, course, onSaveSuccess }) => {
             className="w-full py-2 px-4 bg-gray-100 text-gray-700 border border-gray-300 rounded  block appearance-none placeholder-gray-500 focus:outline-none focus:bg-white"
             {...getFieldProps('level')}
           >
-            {LEVELS.map(item => (
+            {CourseLevels.map(item => (
               <option key={item}>{item}</option>
             ))}
           </select>

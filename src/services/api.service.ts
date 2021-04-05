@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Config, LocaleStorage } from '../common/constants';
-import { Profile, Course, Language } from '../types/api.types';
+import { Profile, Course, Language, Tag } from '../types/api.types';
+import { CourseFormTypes } from '../types/form.types';
 import { getLocalStorage } from './storage.service';
 
 const axiosInstance = () => {
@@ -33,10 +34,38 @@ export const getCourses = async (): Promise<[Course]> => {
   return data;
 };
 
-export const saveCourse = async (course: any): Promise<void> =>
-  axiosInstance().post(`/courses`, course);
+export const getCourseDetails = async (slug: string): Promise<Course> => {
+  const { data } = await axiosInstance().get(`/teacher/${slug}`);
+  return data;
+};
 
-export const getLanguages = async (): Promise<[Language]> => {
+export const getLanguages = async (): Promise<Language[]> => {
   const { data } = await axiosInstance().get(`/languages`);
+  return data;
+};
+
+export const getTags = async (): Promise<Tag[]> => {
+  const { data } = await axiosInstance().get('/tags');
+  return data;
+};
+
+export const saveCourse = async (course: CourseFormTypes): Promise<Course> => {
+  const { data } = await axiosInstance().post(`/courses`, course);
+  return data;
+};
+
+export const updateCourse = async (
+  info: CourseFormTypes,
+  courseId: number
+): Promise<Course> => {
+  const { data } = await axiosInstance().put(`/courses/${courseId}`, info);
+  return data;
+};
+
+export const patchCourse = async (
+  info: Partial<Course>,
+  courseId: number
+): Promise<Course> => {
+  const { data } = await axiosInstance().patch(`/courses/${courseId}`, info);
   return data;
 };

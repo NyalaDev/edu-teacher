@@ -10,7 +10,7 @@ const NewCourse: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [fetching, setFetching] = useState(false);
-  const [languages, setLanguages] = useState<[Language]>();
+  const [languages, setLanguages] = useState<Language[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +32,7 @@ const NewCourse: React.FC = () => {
       </h1>
       <CourseForm
         languages={languages}
-        onSaveSuccess={() => history.push('/')}
+        handleUpdateCourse={() => history.push('/')}
       />
     </ActivityIndicator>
   );

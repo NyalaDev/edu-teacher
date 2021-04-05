@@ -31,3 +31,5 @@ export const Config = {
   API_URL: process.env.REACT_APP_STRAPI_API,
   FRONT_END_URL: process.env.REACT_APP_FRONT_END_URL || '',
 };
+
+export const CourseLevels = ['Beginner', 'Intermediate', 'Advanced'];

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Config, LocaleStorage } from '../common/constants';
 import { Profile, Course, Language, Tag } from '../types/api.types';
+import { CourseFormTypes } from '../types/form.types';
 import { getLocalStorage } from './storage.service';
 
 const axiosInstance = () => {
@@ -33,7 +34,7 @@ export const getCourses = async (): Promise<[Course]> => {
   return data;
 };
 
-export const getCourseDetails = async (slug: string): Promise<[Course]> => {
+export const getCourseDetails = async (slug: string): Promise<Course> => {
   const { data } = await axiosInstance().get(`/teacher/${slug}`);
   return data;
 };
@@ -48,13 +49,13 @@ export const getTags = async (): Promise<Tag[]> => {
   return data;
 };
 
-export const saveCourse = async (course: Partial<Course>): Promise<Course> => {
+export const saveCourse = async (course: CourseFormTypes): Promise<Course> => {
   const { data } = await axiosInstance().post(`/courses`, course);
   return data;
 };
 
 export const updateCourse = async (
-  info: Partial<Course>,
+  info: CourseFormTypes,
   courseId: number
 ): Promise<Course> => {
   const { data } = await axiosInstance().put(`/courses/${courseId}`, info);

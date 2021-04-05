@@ -45,8 +45,8 @@ export type Course = {
   description: string;
   github_repo: string;
   instructor: Profile;
-  lectures: [Lecture];
+  lectures: Lecture[];
   language: Language;
-  tags: [Tag];
-  resources: [Resource];
+  tags: Tag[];
+  resources: Resource[];
 };

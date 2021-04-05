@@ -3,17 +3,23 @@ import { getTags, getLanguages } from '../services/api.service';
 import { Language, Tag } from '../types/api.types';
 
 type AppContextType = {
-  fetching: boolean | undefined;
-  tags: Tag[] | undefined;
-  languages: Language[] | undefined;
+  fetching: boolean;
+  tags: Tag[];
+  languages: Language[];
 };
 
-export const AppContext = createContext<AppContextType | undefined>(undefined);
+const initialState: AppContextType = {
+  fetching: false,
+  tags: [],
+  languages: [],
+};
+
+export const AppContext = createContext<AppContextType>(initialState);
 
 export const AppProvider: React.FunctionComponent = ({ children }) => {
   const [fetching, setFetching] = useState<boolean>(true);
-  const [languages, setLanguages] = useState<Language[] | undefined>(undefined);
-  const [tags, setTags] = useState<Tag[] | undefined>(undefined);
+  const [languages, setLanguages] = useState<Language[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +30,6 @@ export const AppProvider: React.FunctionComponent = ({ children }) => {
         setTags(tagsData);
         setFetching(false);
       } catch (e) {
-        setLanguages([]);
         setFetching(false);
       }
     };

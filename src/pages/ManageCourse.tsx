@@ -1,19 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, useLocation } from 'react-router-dom';
-import {
-  Badge,
-  ActivityIndicator,
-  AutoCompleteInput,
-  Clickable,
-} from '../components/UI';
+import { useParams } from 'react-router-dom';
+import { Badge, ActivityIndicator, Clickable } from '../components/UI';
 import { CourseForm } from '../components/courses';
-import {
-  getLanguages,
-  getTags,
-  patchCourse,
-  getCourseDetails,
-} from '../services/api.service';
+import { getCourseDetails } from '../services/api.service';
 import { AppContext } from '../contexts/AppContext';
 import { Course } from '../types/api.types';
 
@@ -31,8 +21,8 @@ const ManageCourse: React.FC = () => {
   const { t } = useTranslation();
   const { slug } = useParams<Params>();
 
-  const { fetching: fetchingAppContext, languages } = useContext(AppContext);
-  const [course, setCourse] = useState({});
+  const { fetching, languages } = useContext(AppContext);
+  const [course, setCourse] = useState({} as Course);
   const [currentTab, setCurrentTab] = useState(1);
   const { status } = course;
 
@@ -44,10 +34,11 @@ const ManageCourse: React.FC = () => {
     fetchData();
   }, [slug]);
 
-  const handleUpdateCourse = updatedCourse => setCourse(updatedCourse);
+  const handleUpdateCourse = (updatedCourse: Course) =>
+    setCourse(updatedCourse);
 
   return (
-    <ActivityIndicator active={fetchingAppContext || !course.id}>
+    <ActivityIndicator active={fetching || !course.id}>
       <div className="flex flex-col md:flex-row justify-between">
         <div className="w-full md:w-1/4">
           {status && (

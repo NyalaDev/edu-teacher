@@ -9,9 +9,10 @@ import { Course, Language } from '../../types/api.types';
 import { saveCourse, updateCourse } from '../../services/api.service';
 import { extractErrorMessage } from '../../common/helpers';
 import { CourseLevels } from '../../common/constants';
+import { CourseFormTypes } from '../../types/form.types';
 
 type Props = {
-  languages: [Language] | undefined;
+  languages: Language[] | undefined;
   course?: Course;
   handleUpdateCourse: (updatedCourse: Course) => void;
 };
@@ -45,17 +46,15 @@ const CourseForm: React.FC<Props> = ({
       github_repo: Yup.string().url('Enter a valid url please'),
       description: Yup.string().min(10).required(),
     }),
-    onSubmit: async (values: Partial<Course>) => {
+    onSubmit: async (values: CourseFormTypes) => {
       try {
         const courseData = { ...values };
         if (isNewCourse) {
           courseData.slug = slugify(values.slug);
-
-          const data = await saveCourse(courseData);
-
-          handleUpdateCourse(data);
+          await saveCourse(courseData);
+          handleUpdateCourse({} as Course);
         } else {
-          const data = await updateCourse(courseData, course.id);
+          const data = await updateCourse(courseData, course?.id || -1);
           handleUpdateCourse(data);
         }
       } catch (err) {

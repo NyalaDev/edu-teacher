@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Badge, ActivityIndicator, Clickable } from '../components/UI';
-import { CourseForm, ResourcesList } from '../components/courses';
+import { CourseForm, ResourcesList, CourseTags } from '../components/courses';
 import { getCourseDetails } from '../services/api.service';
 import { AppContext } from '../contexts/AppContext';
 import { Course } from '../types/api.types';
@@ -21,10 +21,10 @@ const ManageCourse: React.FC = () => {
   const { t } = useTranslation();
   const { slug } = useParams<Params>();
 
-  const { fetching, languages } = useContext(AppContext);
+  const { fetching, languages, tags } = useContext(AppContext);
   const [course, setCourse] = useState({} as Course);
   const [currentTab, setCurrentTab] = useState(1);
-  const { status } = course;
+  const { status, tags: courseTags } = course;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +60,12 @@ const ManageCourse: React.FC = () => {
               </Clickable>
             ))}
           </ul>
+          <CourseTags
+            courseId={course.id}
+            courseTags={courseTags}
+            allTags={tags}
+            handleUpdateCourse={handleUpdateCourse}
+          />
         </div>
         <div className="w-full md:w-2/3">
           {currentTab === 1 && (

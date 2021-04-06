@@ -1,7 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Modal = ({
+type Props = {
+  title: string;
+  onDismiss?: () => void;
+  onAction?: () => void;
+  closeLabel?: string;
+  confirmLabel?: string;
+  withActions?: boolean;
+  titleCentered?: boolean;
+};
+
+const Modal: React.FC<Props> = ({
   title,
   onDismiss,
   onAction,
@@ -47,14 +57,14 @@ const Modal = ({
                   type="button"
                   onClick={onDismiss}
                 >
-                  {t(closeLabel)}
+                  {t(closeLabel || 'Close')}
                 </button>
                 <button
                   className="bg-gray-800 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                   type="button"
                   onClick={onAction}
                 >
-                  {t(confirmLabel)}
+                  {t(confirmLabel || 'Save')}
                 </button>
               </div>
             )}

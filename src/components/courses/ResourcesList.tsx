@@ -4,39 +4,33 @@ import { useTranslation } from 'react-i18next';
 import { FaTrash, FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { uniqueId } from 'lodash';
-import {
-  ActivityIndicator,
-  TextInput,
-  AutoCompleteInput,
-  Clickable,
-  Modal,
-} from '../UI';
+import { Clickable, Modal } from '../UI';
 import { patchCourse } from '../../services/api.service';
+import { Course, Resource } from '../../types/api.types';
 import ResourceForm from './ResourceForm';
-
 import { extractErrorMessage } from '../../common/helpers';
 
-const ResourcesList = ({ course, handleUpdateCourse }) => {
+type Props = {
+  course?: Course;
+  handleUpdateCourse: (updatedCourse: Course) => void;
+};
+
+const ResourcesList: React.FC<Props> = ({ course, handleUpdateCourse }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(-1);
-  const resources = course.resources || [];
-  console.log(resources, 'res');
+  const resources = course?.resources || [];
+
   const handleDelete = async () => {
     try {
       resources.splice(deleteIndex, 1);
-      const data = await patchCourse({ resources }, course.id);
+      const data = await patchCourse({ resources }, course?.id || -1);
       handleUpdateCourse(data);
       setDeleteIndex(-1);
     } catch (e) {
       const message = extractErrorMessage(e);
       toast.error(message);
     }
-  };
-
-  const onNewLectureSaved = () => {
-    setOpen(false);
-    onSaveSuccess();
   };
 
   return (
@@ -57,7 +51,7 @@ const ResourcesList = ({ course, handleUpdateCourse }) => {
         </h1>
         <hr />
         <ul className="list-none mt-3">
-          {resources.map((resource, index) => (
+          {resources.map((resource: Resource, index: number) => (
             <li key={uniqueId('resource-')} className="flex h-20 mb-2 ">
               <div className="bg-gray-300 w-10 h-full flex justify-center items-center">
                 <div>
@@ -67,6 +61,9 @@ const ResourcesList = ({ course, handleUpdateCourse }) => {
                 </div>
               </div>
               <div className="bg-gray-200 w-full pl-7 flex justify-center flex-col">
+                <div className="font-bold font-bold underline">
+                  {resource.type.toUpperCase()}
+                </div>
                 <div> {resource.text}</div>
                 <div className="text-gray-500">{resource.url}</div>
               </div>

@@ -51,8 +51,8 @@ const CourseForm: React.FC<Props> = ({
         const courseData = { ...values };
         if (isNewCourse) {
           courseData.slug = slugify(values.slug);
-          await saveCourse(courseData);
-          handleUpdateCourse({} as Course);
+          const data = await saveCourse(courseData);
+          handleUpdateCourse(data);
         } else {
           const data = await updateCourse(courseData, course?.id || -1);
           handleUpdateCourse(data);

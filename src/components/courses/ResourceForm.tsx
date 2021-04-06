@@ -4,13 +4,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, TextInput, AutoCompleteInput } from '../UI';
+import { ActivityIndicator, TextInput } from '../UI';
 import { patchCourse } from '../../services/api.service';
 import { extractErrorMessage } from '../../common/helpers';
-import { Course, Language } from '../../types/api.types';
+import { Course, Resource } from '../../types/api.types';
+import { ResourceTypes } from '../../common/constants';
 
 type Props = {
-  course?: Course | undefined;
+  course?: Course;
+  handleUpdateCourse: (updatedCourse: Course) => void;
 };
 
 const ResourceForm: React.FC<Props> = ({ course, handleUpdateCourse }) => {
@@ -31,11 +33,11 @@ const ResourceForm: React.FC<Props> = ({ course, handleUpdateCourse }) => {
         )
         .required(),
     }),
-    onSubmit: async values => {
-      const resources = course.resources || [];
+    onSubmit: async (values: Resource) => {
+      const resources = course?.resources;
       try {
-        resources.push(values);
-        const data = await patchCourse({ resources }, course.id);
+        resources?.push(values);
+        const data = await patchCourse({ resources }, course?.id || -1);
         handleUpdateCourse(data);
       } catch (e) {
         const message = extractErrorMessage(e);
@@ -48,29 +50,26 @@ const ResourceForm: React.FC<Props> = ({ course, handleUpdateCourse }) => {
     <div className="w-full">
       <div className="py-4 px-6">
         <form onSubmit={formik.handleSubmit}>
-          <TextInput
-            name="type"
-            label={t('type')}
-            placeholder={t('type')}
-            error={touched.type && errors.type && errors.type}
-            readOnly
+          <select
+            className="w-full py-2 px-4 bg-gray-100 text-gray-700 border border-gray-300 rounded  block appearance-none placeholder-gray-500 focus:outline-none focus:bg-white"
             {...getFieldProps('type')}
-          />
+          >
+            {ResourceTypes.map(item => (
+              <option key={item}>{item}</option>
+            ))}
+          </select>
           <TextInput
-            name="text"
             label={t('title')}
             placeholder={t('title')}
-            error={touched.text && errors.text && errors.text}
             {...getFieldProps('text')}
+            error={(touched.text && errors.text && errors.text) || ''}
           />
 
           <TextInput
-            name="url"
             label={t('url')}
             placeholder="https://youtube.com?watch=1sAw2asd"
-            error={touched.url && errors.url && errors.url}
-            forceLtr
             {...getFieldProps('url')}
+            error={(touched.url && errors.url && errors.url) || ''}
           />
 
           <div className="flex justify-between items-center mt-6">

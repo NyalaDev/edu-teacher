@@ -1,9 +1,19 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { Badge, ActivityIndicator, Clickable } from '../components/UI';
-import { CourseForm } from '../components/courses';
-import { getCourseDetails } from '../services/api.service';
+import { useParams, useLocation } from 'react-router-dom';
+import {
+  Badge,
+  ActivityIndicator,
+  AutoCompleteInput,
+  Clickable,
+} from '../components/UI';
+import { CourseForm, ResourcesList } from '../components/courses';
+import {
+  getLanguages,
+  getTags,
+  patchCourse,
+  getCourseDetails,
+} from '../services/api.service';
 import { AppContext } from '../contexts/AppContext';
 import { Course } from '../types/api.types';
 
@@ -25,7 +35,7 @@ const ManageCourse: React.FC = () => {
   const [course, setCourse] = useState({} as Course);
   const [currentTab, setCurrentTab] = useState(1);
   const { status } = course;
-
+  console.log(course, 'course');
   useEffect(() => {
     const fetchData = async () => {
       const data = await getCourseDetails(slug);
@@ -70,7 +80,12 @@ const ManageCourse: React.FC = () => {
             />
           )}
           {currentTab === 2 && <div>lectures</div>}
-          {currentTab === 3 && <div>resourses</div>}
+          {currentTab === 3 && (
+            <ResourcesList
+              course={course}
+              handleUpdateCourse={handleUpdateCourse}
+            />
+          )}
         </div>
       </div>
     </ActivityIndicator>

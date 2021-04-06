@@ -6,6 +6,7 @@ import Badge from './Badge';
 import HtmlViewer from './HtmlViewer';
 import TextInput from './TextInput';
 import AutoCompleteInput from './AutoCompleteInput';
+import Modal from './Modal';
 
 export {
   Sidebar,
@@ -16,4 +17,5 @@ export {
   HtmlViewer,
   TextInput,
   AutoCompleteInput,
+  Modal,
 };

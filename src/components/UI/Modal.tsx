@@ -38,10 +38,10 @@ const Modal: React.FC<Props> = ({
               {onDismiss && (
                 <button
                   type="button"
-                  className="p-1 bg-transparent border-0 text-black opacity-5 text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  className="p-1 bg-transparent border-0 text-black text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={onDismiss}
                 >
-                  <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                  <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                     ×
                   </span>
                 </button>

@@ -34,9 +34,9 @@ const ResourceForm: React.FC<Props> = ({ course, handleUpdateCourse }) => {
         .required(),
     }),
     onSubmit: async (values: Resource) => {
-      const resources = course?.resources;
+      const resources = course?.resources || [];
       try {
-        resources?.push(values);
+        resources.push(values);
         const data = await patchCourse({ resources }, course?.id || -1);
         handleUpdateCourse(data);
       } catch (e) {

@@ -12,10 +12,10 @@ import { ResourceTypes } from '../../common/constants';
 
 type Props = {
   course?: Course;
-  handleUpdateCourse: (updatedCourse: Course) => void;
+  refreshData: () => void;
 };
 
-const ResourceForm: React.FC<Props> = ({ course, handleUpdateCourse }) => {
+const ResourceForm: React.FC<Props> = ({ course, refreshData }) => {
   const { t } = useTranslation();
 
   const formik = useFormik({
@@ -37,8 +37,8 @@ const ResourceForm: React.FC<Props> = ({ course, handleUpdateCourse }) => {
       const resources = course?.resources || [];
       try {
         resources.push(values);
-        const data = await patchCourse({ resources }, course?.id || -1);
-        handleUpdateCourse(data);
+        await patchCourse({ resources }, course?.id || -1);
+        refreshData();
       } catch (e) {
         const message = extractErrorMessage(e);
         toast.error(message);

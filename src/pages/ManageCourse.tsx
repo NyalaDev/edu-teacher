@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { Badge, ActivityIndicator, Clickable } from '../components/UI';
 import { CourseForm, ResourcesList, CourseTags } from '../components/courses';
-import { getCourseDetails } from '../services/api.service';
+import { LecturesList } from '../components/lectures';
+import { getCourseDetails, patchCourse } from '../services/api.service';
 import { AppContext } from '../contexts/AppContext';
 import { Course } from '../types/api.types';
 
@@ -17,14 +19,35 @@ const tabs = [
   { id: 3, title: 'resources' },
 ];
 
+type StyledButtonProps = {
+  disabled?: boolean;
+  color?: string;
+};
+
+const StyledButton = styled.button.attrs<StyledButtonProps>(
+  ({ color, disabled }) => ({
+    className: `py-2 px-4 bg-${
+      disabled ? 'gray' : color
+    }-600 text-white rounded hover:bg-${color}-400 focus:outline-none w-full ${
+      disabled && 'cursor-not-allowed'
+    }`,
+  })
+)``;
+
 const ManageCourse: React.FC = () => {
   const { t } = useTranslation();
   const { slug } = useParams<Params>();
-
+  const [refreshIndex, setRefreshIndex] = useState(0);
   const { fetching, languages, tags } = useContext(AppContext);
   const [course, setCourse] = useState({} as Course);
   const [currentTab, setCurrentTab] = useState(1);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+
   const { status, tags: courseTags } = course;
+
+  const actionBtnLabel = status === 'Published' ? 'unpublish' : 'publish';
+  const actionBtnColor = status === 'Published' ? 'red' : 'green';
+  const hasLectures = course && course.lectures && course.lectures.length > 0;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,10 +55,21 @@ const ManageCourse: React.FC = () => {
       setCourse(data);
     };
     fetchData();
-  }, [slug]);
+  }, [slug, refreshIndex]);
 
-  const handleUpdateCourse = (updatedCourse: Course) =>
-    setCourse(updatedCourse);
+  const refreshData = () => setRefreshIndex(refreshIndex + 1);
+
+  const toggleCourseStatus = async () => {
+    try {
+      setUpdatingStatus(true);
+      const courseStatus = status === 'Draft' ? 'Published' : 'Draft';
+      await patchCourse({ status: courseStatus }, course.id);
+      refreshData();
+      setUpdatingStatus(false);
+    } catch (e) {
+      setUpdatingStatus(false);
+    }
+  };
 
   return (
     <ActivityIndicator active={fetching || !course.id}>
@@ -60,11 +94,23 @@ const ManageCourse: React.FC = () => {
               </Clickable>
             ))}
           </ul>
+          <div className="w-full flex mt-5">
+            <ActivityIndicator active={updatingStatus}>
+              <StyledButton
+                type="button"
+                disabled={!hasLectures}
+                color={actionBtnColor}
+                onClick={toggleCourseStatus}
+              >
+                {t(actionBtnLabel)}
+              </StyledButton>
+            </ActivityIndicator>
+          </div>
           <CourseTags
             courseId={course.id}
             courseTags={courseTags}
             allTags={tags}
-            handleUpdateCourse={handleUpdateCourse}
+            refreshData={refreshData}
           />
         </div>
         <div className="w-full md:w-2/3">
@@ -72,15 +118,14 @@ const ManageCourse: React.FC = () => {
             <CourseForm
               languages={languages}
               course={course}
-              handleUpdateCourse={handleUpdateCourse}
+              onSaveCourse={refreshData}
             />
           )}
-          {currentTab === 2 && <div>lectures</div>}
+          {currentTab === 2 && (
+            <LecturesList course={course} refreshData={refreshData} />
+          )}
           {currentTab === 3 && (
-            <ResourcesList
-              course={course}
-              handleUpdateCourse={handleUpdateCourse}
-            />
+            <ResourcesList course={course} refreshData={refreshData} />
           )}
         </div>
       </div>

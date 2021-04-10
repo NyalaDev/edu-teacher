@@ -14,14 +14,10 @@ import { CourseFormTypes } from '../../types/form.types';
 type Props = {
   languages: Language[] | undefined;
   course?: Course;
-  handleUpdateCourse: (updatedCourse: Course) => void;
+  onSaveCourse: () => void;
 };
 
-const CourseForm: React.FC<Props> = ({
-  languages,
-  course,
-  handleUpdateCourse,
-}) => {
+const CourseForm: React.FC<Props> = ({ languages, course, onSaveCourse }) => {
   const { t } = useTranslation();
 
   const isNewCourse = course && !course.id;
@@ -51,12 +47,11 @@ const CourseForm: React.FC<Props> = ({
         const courseData = { ...values };
         if (isNewCourse) {
           courseData.slug = slugify(values.slug);
-          const data = await saveCourse(courseData);
-          handleUpdateCourse(data);
+          await saveCourse(courseData);
         } else {
-          const data = await updateCourse(courseData, course?.id || -1);
-          handleUpdateCourse(data);
+          await updateCourse(courseData, course?.id || -1);
         }
+        onSaveCourse();
       } catch (err) {
         const message = extractErrorMessage(err);
         toast.error(message);

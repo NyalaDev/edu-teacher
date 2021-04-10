@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { Config, LocaleStorage } from '../common/constants';
-import { Profile, Course, Language, Tag } from '../types/api.types';
-import { CourseFormTypes } from '../types/form.types';
+import { Profile, Course, Language, Tag, Lecture } from '../types/api.types';
+import {
+  CourseFormTypes,
+  ImportFormTypes,
+  LectureFormTypes,
+} from '../types/form.types';
 import { getLocalStorage } from './storage.service';
 
 const axiosInstance = () => {
@@ -68,4 +72,21 @@ export const patchCourse = async (
 ): Promise<Course> => {
   const { data } = await axiosInstance().patch(`/courses/${courseId}`, info);
   return data;
+};
+
+export const saveLecture = async (
+  lecture: LectureFormTypes
+): Promise<Lecture> => {
+  const { data } = await axiosInstance().post('/lectures', lecture);
+  return data;
+};
+
+export const importFromYoutube = async (
+  payload: ImportFormTypes
+): Promise<void> => {
+  await axiosInstance().post('/lectures/import', payload);
+};
+
+export const deleteLecture = async (id: number): Promise<void> => {
+  await axiosInstance().delete(`/lectures/${id}`);
 };

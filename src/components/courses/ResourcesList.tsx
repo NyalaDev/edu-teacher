@@ -12,10 +12,10 @@ import { extractErrorMessage } from '../../common/helpers';
 
 type Props = {
   course?: Course;
-  handleUpdateCourse: (updatedCourse: Course) => void;
+  refreshData: () => void;
 };
 
-const ResourcesList: React.FC<Props> = ({ course, handleUpdateCourse }) => {
+const ResourcesList: React.FC<Props> = ({ course, refreshData }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(-1);
@@ -24,13 +24,18 @@ const ResourcesList: React.FC<Props> = ({ course, handleUpdateCourse }) => {
   const handleDelete = async () => {
     try {
       resources.splice(deleteIndex, 1);
-      const data = await patchCourse({ resources }, course?.id || -1);
-      handleUpdateCourse(data);
+      await patchCourse({ resources }, course?.id || -1);
+      refreshData();
       setDeleteIndex(-1);
     } catch (e) {
       const message = extractErrorMessage(e);
       toast.error(message);
     }
+  };
+
+  const onResourcesCreated = () => {
+    setOpen(false);
+    refreshData();
   };
 
   return (
@@ -61,7 +66,7 @@ const ResourcesList: React.FC<Props> = ({ course, handleUpdateCourse }) => {
                 </div>
               </div>
               <div className="bg-gray-200 w-full pl-7 flex justify-center flex-col">
-                <div className="font-bold font-bold underline">
+                <div className="font-bold underline">
                   {resource.type.toUpperCase()}
                 </div>
                 <div> {resource.text}</div>
@@ -78,10 +83,7 @@ const ResourcesList: React.FC<Props> = ({ course, handleUpdateCourse }) => {
           onDismiss={() => setOpen(false)}
           title={t('details')}
         >
-          <ResourceForm
-            handleUpdateCourse={handleUpdateCourse}
-            course={course}
-          />
+          <ResourceForm refreshData={onResourcesCreated} course={course} />
         </Modal>
       )}
 

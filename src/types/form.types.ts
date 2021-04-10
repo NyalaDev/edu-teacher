@@ -6,3 +6,15 @@ export type CourseFormTypes = {
   language: number;
   level: string;
 };
+
+export type LectureFormTypes = {
+  title: string;
+  url: string;
+  description?: string;
+  course: number;
+};
+
+export type ImportFormTypes = {
+  url: string;
+  course: number;
+};

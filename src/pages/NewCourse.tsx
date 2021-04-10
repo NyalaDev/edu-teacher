@@ -32,7 +32,7 @@ const NewCourse: React.FC = () => {
       </h1>
       <CourseForm
         languages={languages}
-        handleUpdateCourse={() => history.push('/')}
+        onSaveCourse={() => history.push('/')}
       />
     </ActivityIndicator>
   );

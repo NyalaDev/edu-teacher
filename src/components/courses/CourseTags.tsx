@@ -3,27 +3,27 @@ import { toast } from 'react-toastify';
 import { AutoCompleteInput, Badge } from '../UI';
 import { AutoCompleteOption } from '../UI/AutoCompleteInput';
 import { patchCourse } from '../../services/api.service';
-import { Course, Tag } from '../../types/api.types';
+import { Tag } from '../../types/api.types';
 import { extractErrorMessage } from '../../common/helpers';
 
 type Props = {
   courseTags: Tag[];
   allTags: Tag[];
   courseId: number | undefined;
-  handleUpdateCourse: (updatedCourse: Course) => void;
+  refreshData: () => void;
 };
 
 const CourseTags: React.FC<Props> = ({
   courseTags,
   allTags,
   courseId,
-  handleUpdateCourse,
+  refreshData,
 }) => {
   const onRemoveTag = async (tag: Tag) => {
     const updatedTags = courseTags?.filter((aTag: Tag) => aTag.id !== tag.id);
     try {
-      const data = await patchCourse({ tags: updatedTags }, courseId || -1);
-      handleUpdateCourse(data);
+      await patchCourse({ tags: updatedTags }, courseId || -1);
+      refreshData();
     } catch (e) {
       const message = extractErrorMessage(e);
       toast.error(message);
@@ -36,8 +36,8 @@ const CourseTags: React.FC<Props> = ({
       if (!updatedTags?.includes(tag.id)) {
         const y = allTags?.filter((atag: Tag) => tag.id === atag.id)[0];
         courseTags?.push(y);
-        const data = await patchCourse({ tags: courseTags }, courseId || -1);
-        handleUpdateCourse(data);
+        await patchCourse({ tags: courseTags }, courseId || -1);
+        refreshData();
       }
     } catch (e) {
       const message = extractErrorMessage(e);

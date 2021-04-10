@@ -1,3 +1,4 @@
+import { Duration } from 'luxon';
 import { appLanguages } from './constants';
 
 const getYoutubeVideoId = (url: string) => {
@@ -35,3 +36,6 @@ export const extractErrorMessage = (err: any): string => {
     return 'Something went wrong';
   }
 };
+
+export const formatDuration = (duration: string, format = 'hh:mm:ss'): string =>
+  Duration.fromISO(duration).toFormat(format);

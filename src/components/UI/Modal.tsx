@@ -9,6 +9,7 @@ type Props = {
   confirmLabel?: string;
   withActions?: boolean;
   titleCentered?: boolean;
+  sizeLarge?: boolean;
 };
 
 const Modal: React.FC<Props> = ({
@@ -20,12 +21,17 @@ const Modal: React.FC<Props> = ({
   confirmLabel,
   withActions,
   titleCentered,
+  sizeLarge,
 }) => {
   const { t } = useTranslation();
   return (
     <>
       <div className="justify-center mt-16 sm:mt-64 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="w-9/12">
+        <div
+          className={`w-9/12 ${
+            sizeLarge ? '' : 'md:max-w-md '
+          }mx-auto rounded shadow-lg`}
+        >
           <div className="border-0 rounded-lg shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex flex-row items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
               <h3
@@ -71,7 +77,7 @@ const Modal: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40" />
+      <div className="bg-gray-900 opacity-50 fixed inset-0 z-40" />
     </>
   );
 };

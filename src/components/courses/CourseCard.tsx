@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { HtmlViewer, Badge } from '../UI';
 import { Course } from '../../types/api.types';
 import useLanguage from '../../hooks/useLanguage';
@@ -28,9 +27,7 @@ const Home: React.FC<Props> = ({ course }) => {
       />
 
       <div className="px-6 py-4">
-        <div className="title text-xl mb-2">
-          <Link to="/">{course.title}</Link>
-        </div>
+        <div className="title text-xl mb-2">{course.title}</div>
 
         <div className="flex flex-wrap my-2">
           <Badge

@@ -33,3 +33,5 @@ export const Config = {
 };
 
 export const CourseLevels = ['Beginner', 'Intermediate', 'Advanced'];
+
+export const ResourceTypes = ['exercise', 'link'];

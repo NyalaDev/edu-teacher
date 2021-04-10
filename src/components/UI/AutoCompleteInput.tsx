@@ -4,7 +4,7 @@ import Input from './TextInput';
 import Clickable from './Clickable';
 
 export type AutoCompleteOption = {
-  id: string;
+  id: number;
   name: string;
 };
 
@@ -13,7 +13,7 @@ interface Props
   label?: string;
   error?: string;
   initialValue?: AutoCompleteOption | undefined;
-  options: [AutoCompleteOption];
+  options: AutoCompleteOption[] | undefined;
   onOptionSelect: (O: AutoCompleteOption) => void;
 }
 
@@ -56,7 +56,7 @@ const AutoCompleteInput: React.FC<Props> = ({
       {open && (
         <div className="border border-gray-500 overflow-auto w-full h-40">
           {options
-            .filter(
+            ?.filter(
               item => item.name.toLowerCase().indexOf(search.toLowerCase()) > -1
             )
             .map(item => (

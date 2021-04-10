@@ -15,8 +15,7 @@ export type Language = {
   name: string;
 };
 
-// type ResourceType = 'link' | 'Something else'
-type ResourceType = 'link';
+type ResourceType = 'link' | 'exercise';
 
 export type Resource = {
   url?: string;

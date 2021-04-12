@@ -40,6 +40,12 @@
   "url": "URL",
   "importFromYoutube": "Import from YouTube",
   "noCourse": "No courses for the selected filters",
+  "creationDate": "Creation date",
+  "newest": "Newest",
+  "oldest": "Oldest",
+  "status": "Course Status",
+  "published": "Published",
+  "draft": "Draft",
   "errors": {
     "generic": "An error occured. Please try again",
     "invalid_auth": "Invalid username/password. Please try again"
@@ -47,5 +53,6 @@
   "yes": "yes",
   "no": "no",
   "filterCourses": "Filter courses",
+  "sortCourses": "Sort courses",
   "courseLevel": "Course Level"
 }

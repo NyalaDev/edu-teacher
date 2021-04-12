@@ -40,6 +40,12 @@
   "url": "URL",
   "importFromYoutube": "Import from YouTube",
   "noCourse": "No courses for the selected filters",
+  "creationDate": "",
+  "newest": "",
+  "oldest": "",
+  "status": "",
+  "published": "",
+  "draft": "",
   "errors": {
     "generic": "አንድ ስህተት ተከስቷል። እባክዎ ዳግም ይሞክሩ"
   },

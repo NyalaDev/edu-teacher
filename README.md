@@ -19,6 +19,10 @@ This project is build with [React and TypeScript](https://create-react-app.dev/d
 yarn install
 ```
 
+- Make a copy of `.env.example` to `.env.development`
+
+> Make sure to copy a valid token for a teacher from your running local instance of the frontend website (normally on http://localhost:8000) to `REACT_APP_AUTH_TOKEN` in `.env.development`. The value is in `localStorage` under `AuthToken`.
+
 - Start the development server
 
 ```

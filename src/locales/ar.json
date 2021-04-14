@@ -40,9 +40,16 @@
   "url": "الرابط",
   "importFromYoutube": "جلب من اليوتيوب",
   "noCourse": "لا توجد كورسات",
+  "creationDate": "تاريخ الانشاء",
+  "newest": "الاجد",
+  "oldest": "الاقدم",
+  "status": "حالة الكورس",
+  "published": "الكورسات المنشورة اولا",
+  "draft": "مسودة",
   "errors": { "generic": "حدث خطأ, الرجاء المحاول مرة أخري" },
   "yes": "نعم",
   "no": "لا",
   "filterCourses": "إبحث عن كورس",
+  "sortCourses": "رتب الكورسات",
   "courseLevel": "درجة الكورس"
 }

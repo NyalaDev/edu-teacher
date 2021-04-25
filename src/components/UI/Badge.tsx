@@ -23,7 +23,7 @@ const Badge: React.FC<Props> = ({
     <div className="m-1">
       <span
         className={`px-2 bg- py-1 text-white bg-${color} rounded-md ${
-          closable && 'flex items-center justify-between'
+          closable && 'flex items-center justify-between '
         }`}
       >
         {closable && (
@@ -31,7 +31,7 @@ const Badge: React.FC<Props> = ({
             <AiOutlineClose />
           </Clickable>
         )}
-        <span>{text}</span>
+        <span className="text-sm">{text}</span>
       </span>
     </div>
   );

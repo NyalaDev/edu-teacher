@@ -1,43 +1,39 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useEffect, createContext, useReducer } from 'react';
 import { getTags, getLanguages } from '../services/api.service';
-import { Language, Tag } from '../types/api.types';
 
-type AppContextType = {
-  fetching: boolean;
-  tags: Tag[];
-  languages: Language[];
-};
+import { reducer, AppState, AppAactions, Action } from './app.reducer';
 
-const initialState: AppContextType = {
-  fetching: false,
+const initialState: AppState = {
+  fetching: true,
   tags: [],
   languages: [],
+  isSidebarOpen: false,
 };
 
-export const AppContext = createContext<AppContextType>(initialState);
+export const AppContext = createContext<{
+  state: AppState;
+  dispatch: React.Dispatch<Action>;
+}>({ state: initialState, dispatch: () => {} });
 
 export const AppProvider: React.FunctionComponent = ({ children }) => {
-  const [fetching, setFetching] = useState<boolean>(true);
-  const [languages, setLanguages] = useState<Language[]>([]);
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const Languagesdata = await getLanguages();
-        const tagsData = await getTags();
-        setLanguages(Languagesdata);
-        setTags(tagsData);
-        setFetching(false);
-      } catch (e) {
-        setFetching(false);
+        const languages = await getLanguages();
+        const tags = await getTags();
+        dispatch({ type: AppAactions.setLanguages, payload: languages });
+        dispatch({ type: AppAactions.setTags, payload: tags });
+      } finally {
+        dispatch({ type: AppAactions.setFetching, payload: false });
       }
     };
     fetchData();
   }, []);
 
   return (
-    <AppContext.Provider value={{ fetching, tags, languages }}>
+    <AppContext.Provider value={{ state, dispatch }}>
       {children}
     </AppContext.Provider>
   );

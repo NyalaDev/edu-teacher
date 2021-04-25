@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Badge, ActivityIndicator, Clickable } from '../components/UI';
+import { GrDocumentVideo, GrResources, GrDocument } from 'react-icons/gr';
+import { ActivityIndicator, Clickable, PageTitle } from '../components/UI';
 import { CourseForm, ResourcesList, CourseTags } from '../components/courses';
 import { LecturesList } from '../components/lectures';
 import { getCourseDetails, patchCourse } from '../services/api.service';
@@ -14,9 +15,9 @@ interface Params {
 }
 
 const tabs = [
-  { id: 1, title: 'courseDetails' },
-  { id: 2, title: 'lectures' },
-  { id: 3, title: 'resources' },
+  { id: 1, title: 'courseDetails', icon: GrDocument },
+  { id: 2, title: 'lectures', icon: GrDocumentVideo },
+  { id: 3, title: 'resources', icon: GrResources },
 ];
 
 type StyledButtonProps = {
@@ -26,19 +27,19 @@ type StyledButtonProps = {
 
 const StyledButton = styled.button.attrs<StyledButtonProps>(
   ({ color, disabled }) => ({
-    className: `py-2 px-4 bg-${
-      disabled ? 'gray' : color
-    }-600 text-white rounded hover:bg-${color}-400 focus:outline-none w-full ${
-      disabled && 'cursor-not-allowed'
-    }`,
+    className: `${
+      disabled
+        ? ' bg-gray-300 cursor-not-allowed text-grey-700'
+        : `bg-${color}-600 hover:bg-${color}-400 text-white`
+    }  rounded focus:outline-none w-full border rounded-full py-2 px-4 text-xs font-semibold `,
   })
 )``;
 
 const ManageCourse: React.FC = () => {
   const { t } = useTranslation();
   const { slug } = useParams<Params>();
+  const { state } = useContext(AppContext);
   const [refreshIndex, setRefreshIndex] = useState(0);
-  const { fetching, languages, tags } = useContext(AppContext);
   const [course, setCourse] = useState({} as Course);
   const [currentTab, setCurrentTab] = useState(1);
   const [updatingStatus, setUpdatingStatus] = useState(false);
@@ -53,6 +54,7 @@ const ManageCourse: React.FC = () => {
     const fetchData = async () => {
       const data = await getCourseDetails(slug);
       setCourse(data);
+      setCurrentTab(1);
     };
     fetchData();
   }, [slug, refreshIndex]);
@@ -71,52 +73,67 @@ const ManageCourse: React.FC = () => {
     }
   };
 
+  const courseBadge = {
+    text: status,
+    color: `${status === 'Published' ? 'green' : 'red'}-600`,
+  };
   return (
-    <ActivityIndicator active={fetching || !course.id}>
+    <ActivityIndicator active={state.fetching || !course.id}>
+      <PageTitle title={course.title} badge={courseBadge} />
+
       <div className="flex flex-col md:flex-row justify-between">
-        <div className="w-full md:w-1/4">
-          {status && (
-            <Badge
-              text={status}
-              color={`${status === 'Published' ? 'green' : 'red'}-600`}
-            />
-          )}
-          <ul className="flex flex-col">
-            {tabs.map((tab, index) => (
-              <Clickable key={tab.id} onClick={() => setCurrentTab(index + 1)}>
-                <li
-                  className={`rounded-t -mb-px block border p-4 border-grey hover:bg-gray-800 hover:text-white cursor-pointer ${
-                    tab.id === currentTab && 'bg-gray-800 text-white'
-                  }`}
+        <div className="w-full md:w-1/5">
+          <div className="bg-white rounded overflow-hidden shadow-lg">
+            <div className="text-center p-6  border-b">
+              <ActivityIndicator active={updatingStatus}>
+                <StyledButton
+                  type="button"
+                  onClick={toggleCourseStatus}
+                  disabled={!hasLectures}
+                  color={actionBtnColor}
                 >
-                  {t(tab.title)}
-                </li>
-              </Clickable>
-            ))}
-          </ul>
-          <div className="w-full flex mt-5">
-            <ActivityIndicator active={updatingStatus}>
-              <StyledButton
-                type="button"
-                disabled={!hasLectures}
-                color={actionBtnColor}
-                onClick={toggleCourseStatus}
-              >
-                {t(actionBtnLabel)}
-              </StyledButton>
-            </ActivityIndicator>
+                  {t(actionBtnLabel)}
+                </StyledButton>
+              </ActivityIndicator>
+            </div>
+            <div className="border-b">
+              {tabs.map((tab, index) => (
+                <div
+                  className={`px-4 py-4 hover:bg-gray-100 flex w-full border-b ${
+                    index + 1 === currentTab ? 'bg-gray-100' : ''
+                  }`}
+                  key={tab.id}
+                >
+                  <Clickable
+                    key={tab.id}
+                    onClick={() => setCurrentTab(index + 1)}
+                    className="flex w-full"
+                  >
+                    <div className="text-gray-800">
+                      <tab.icon />
+                    </div>
+                    <div className="pl-3">
+                      <p className="text-sm font-medium text-gray-800 leading-none">
+                        {t(tab.title)}
+                      </p>
+                      {/* <p className="text-xs text-gray-500">Subtitle</p> */}
+                    </div>
+                  </Clickable>
+                </div>
+              ))}
+            </div>
           </div>
           <CourseTags
             courseId={course.id}
             courseTags={courseTags}
-            allTags={tags}
+            allTags={state.tags}
             refreshData={refreshData}
           />
         </div>
-        <div className="w-full md:w-2/3">
+        <div className="w-full md:w-4/5 md:mx-5 mt-6 md:mt-0">
           {currentTab === 1 && (
             <CourseForm
-              languages={languages}
+              languages={state.languages}
               course={course}
               onSaveCourse={refreshData}
             />

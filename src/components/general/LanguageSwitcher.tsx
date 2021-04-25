@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { appLanguages } from '../../common/constants';
 import useLanguage from '../../hooks/useLanguage';
-import Clickable from './Clickable';
+import { Clickable } from '../UI';
 
 const LanguageSwitcher: React.FC = () => {
   const { isRtl, language, changeLanguage } = useLanguage();

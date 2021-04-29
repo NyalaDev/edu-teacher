@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Route, useLocation } from 'react-router-dom';
-import { Config, LocaleStorage } from '../../common/constants';
-import { getLocalStorage } from '../../services/storage.service';
+import { Config } from '../../common/constants';
+import { getTokenFromCookie } from '../../services/cookie.service';
 import { ActivityIndicator } from '../UI';
 
 type ComponentProps = {
@@ -14,7 +14,7 @@ const PrivateRoute: React.FC<ComponentProps> = ({ children, path, exact }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const token = getLocalStorage(LocaleStorage.AUTH_TOKEN);
+    const token = getTokenFromCookie();
     if (!token) {
       window.location.assign(Config.FRONT_END_URL);
       return;

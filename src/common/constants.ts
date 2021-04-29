@@ -1,6 +1,5 @@
 export const LocaleStorage = {
   DEFAULT_LANGUAGE: 'edu-admin:siteLang',
-  AUTH_TOKEN: 'edu-admin:authToken',
   USER_INFO: 'edu-admin:user',
 };
 

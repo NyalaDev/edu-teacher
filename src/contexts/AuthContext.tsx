@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
-import { LocaleStorage } from '../common/constants';
+import { Config, LocaleStorage } from '../common/constants';
+import { getProfile } from '../services/api.service';
+import { getTokenFromCookie } from '../services/cookie.service';
 import {
   setLocalStorage,
   getLocalStorage,
@@ -41,11 +43,37 @@ export const AuthProvider: React.FC = ({ children }) => {
   const logout = () => {
     updateUser(initialState.user);
     clearLocalStorage(LocaleStorage.USER_INFO);
-    clearLocalStorage(LocaleStorage.AUTH_TOKEN);
   };
 
   useEffect(() => {
-    if (user.id) setLocalStorage(LocaleStorage.USER_INFO, JSON.stringify(user));
+    const loadUser = async () => {
+      const authToken = getTokenFromCookie();
+      if (!authToken) {
+        window.location.assign(Config.FRONT_END_URL);
+        return;
+      }
+
+      try {
+        const data = await getProfile(authToken);
+        const {
+          user: { role },
+        } = data;
+
+        if (role.type !== 'teacher') {
+          window.location.assign(Config.FRONT_END_URL);
+          return;
+        }
+
+        updateUser(data);
+      } catch (e) {
+        window.location.assign(Config.FRONT_END_URL);
+      }
+    };
+    loadUser();
+  }, []);
+
+  useEffect(() => {
+    setLocalStorage(LocaleStorage.USER_INFO, JSON.stringify(user));
   }, [user]);
 
   return (

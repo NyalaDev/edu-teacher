@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ProtectedRoute, Auth, Layout } from './components/general';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { ProtectedRoute, Layout } from './components/general';
 import { Home, NewCourse, ManageCourse } from './pages';
 import { AuthProvider } from './contexts/AuthContext';
 import { AppProvider } from './contexts/AppContext';
@@ -22,9 +22,6 @@ const App: React.FC = () => {
               <ProtectedRoute path="/manage/:slug" exact>
                 <ManageCourse />
               </ProtectedRoute>
-              <Route path="/auth" exact>
-                <Auth />
-              </Route>
             </Switch>
           </Layout>
         </Router>

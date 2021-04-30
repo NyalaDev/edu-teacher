@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { Config, LocaleStorage } from '../common/constants';
+import { Config } from '../common/constants';
 import { Profile, Course, Language, Tag, Lecture } from '../types/api.types';
 import {
   CourseFormTypes,
   ImportFormTypes,
   LectureFormTypes,
 } from '../types/form.types';
-import { getLocalStorage } from './storage.service';
+import { getTokenFromCookie } from './cookie.service';
 
 const axiosInstance = () => {
-  const token = getLocalStorage(LocaleStorage.AUTH_TOKEN);
+  const token = getTokenFromCookie();
   const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
   const params = {
     baseURL: Config.API_URL,
@@ -22,13 +22,34 @@ const axiosInstance = () => {
   return axios.create(params);
 };
 
+/**
+ * Remove unused fields from the api profile
+ * @param profile Profile from the api
+ * @returns sanatized profile
+ */
+const sanatizeProfile = (profile: Profile): Profile => {
+  const { user } = profile;
+  const { role } = user;
+
+  return {
+    name: profile.name,
+    user: {
+      role: {
+        name: role.name,
+        type: role.type,
+      },
+    },
+  };
+};
+
 export const getProfile = async (token: string): Promise<Profile> => {
   const { data } = await axios.get(`${Config.API_URL}/profiles`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  return data;
+
+  return sanatizeProfile(data);
 };
 
 export const getCourses = async (): Promise<[Course]> => {

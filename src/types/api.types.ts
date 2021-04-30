@@ -1,6 +1,15 @@
-export type Profile = {
-  id: number;
+export type Role = {
   name: string;
+  type: string;
+};
+
+export type User = {
+  role: Role;
+};
+
+export type Profile = {
+  name: string;
+  user: User;
 };
 
 export type Tag = {

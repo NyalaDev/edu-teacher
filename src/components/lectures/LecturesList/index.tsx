@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { FaPlus, FaSyncAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-// import { orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -38,8 +38,10 @@ const LecturesList: React.FC<LecturesListProps> = ({ course, refreshData }) => {
   const [lectureForDelete, setLectureForDelete] = useState(initialLectureState);
 
   const { lectures: courseLectures = [] } = course;
-  const [lectures, setLectures] = useState(courseLectures);
-  // console.log(lectures, 'lectures');
+
+  const [lectures, setLectures] = useState(
+    orderBy(courseLectures, 'position', 'asc')
+  );
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -124,7 +126,6 @@ const LecturesList: React.FC<LecturesListProps> = ({ course, refreshData }) => {
           <hr />
           <div>
             <StyledLectureList>
-              {/* {orderBy(lectures, 'position', 'asc').map((lecture, index) => ( */}
               {lectures.map((lecture, index) => (
                 <LectureItem
                   key={lecture.id}

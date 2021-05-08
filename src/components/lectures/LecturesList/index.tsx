@@ -6,7 +6,7 @@ import { orderBy } from 'lodash';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import { Modal } from '../../UI';
+import { Modal, ActivityIndicator } from '../../UI';
 import LectureItem from '../LectureItem';
 import LectureFrorm from '../LectureFrorm';
 import ImportLecturesForm from '../ImportLecturesForm';
@@ -34,6 +34,8 @@ const LecturesList: React.FC<LecturesListProps> = ({ course, refreshData }) => {
     open: false,
     type: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [lectureForDelete, setLectureForDelete] = useState(initialLectureState);
 
@@ -81,9 +83,12 @@ const LecturesList: React.FC<LecturesListProps> = ({ course, refreshData }) => {
 
   const handleClick = async () => {
     try {
+      setIsSubmitting(true);
       await updateLectures(lectures);
+      setIsSubmitting(false);
       refreshData();
     } catch (e) {
+      setIsSubmitting(false);
       const message = extractErrorMessage(e);
       toast.error(message);
     }
@@ -139,9 +144,17 @@ const LecturesList: React.FC<LecturesListProps> = ({ course, refreshData }) => {
               ))}
             </StyledLectureList>
           </div>
-          <button type="submit" onClick={handleClick}>
-            update
-          </button>
+          <div className="flex justify-center mt-5">
+            <ActivityIndicator active={isSubmitting}>
+              <button
+                className="py-2 px-4 bg-gray-700 text-lg text-white rounded hover:bg-gray-600 focus:outline-none"
+                type="submit"
+                onClick={handleClick}
+              >
+                {t('updateOrder')}
+              </button>
+            </ActivityIndicator>
+          </div>
         </div>
 
         {modalStatus.open && (

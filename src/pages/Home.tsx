@@ -143,6 +143,28 @@ const Home: React.FC = () => {
             className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
             onChange={onFilterCourse}
           />
+          <span>Sort by</span>
+          <select
+            className="w-full py-2 px-4 bg-gray-100 text-gray-700 border border-gray-300 rounded  block appearance-none placeholder-gray-500 focus:outline-none focus:bg-white"
+            onChange={onSortbyCreationDate}
+            value={createdAtValue.created_at}
+            name="created_at"
+          >
+            <option value="-1">{t('creationDate')}</option>
+            <option value="newest">{t('newest')}</option>
+            <option value="oldest">{t('oldest')}</option>
+          </select>
+
+          <select
+            className="w-full py-2 px-4 bg-gray-100 text-gray-700 border border-gray-300 rounded  block appearance-none placeholder-gray-500 focus:outline-none focus:bg-white"
+            onChange={onSortbystatus}
+            value={statusValue.status}
+            name="status"
+          >
+            <option value="-1">{t('status')}</option>
+            <option value="published">{t('published')}</option>
+            <option value="draft">{t('draft')}</option>
+          </select>
         </div>
       </div>
 

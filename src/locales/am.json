@@ -52,5 +52,6 @@
   "yes": "yes",
   "no": "no",
   "filterCourses": "Filter courses",
-  "courseLevel": "Course Level"
+  "courseLevel": "Course Level",
+  "updateOrder": "Update Order"
 }

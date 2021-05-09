@@ -54,13 +54,11 @@ const ManageCourse: React.FC = () => {
     const fetchData = async () => {
       const data = await getCourseDetails(slug);
       setCourse(data);
-      setCurrentTab(1);
     };
     fetchData();
   }, [slug, refreshIndex]);
 
   const refreshData = () => setRefreshIndex(refreshIndex + 1);
-
   const toggleCourseStatus = async () => {
     try {
       setUpdatingStatus(true);

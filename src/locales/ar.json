@@ -51,5 +51,6 @@
   "no": "لا",
   "filterCourses": "إبحث عن كورس",
   "sortCourses": "رتب الكورسات",
-  "courseLevel": "درجة الكورس"
+  "courseLevel": "درجة الكورس",
+  "updateOrder": "تحديث الترتيب"
 }

@@ -87,6 +87,14 @@ export const updateCourse = async (
   return data;
 };
 
+export const updateLectures = async (lectures: Lecture[]): Promise<Course> => {
+  const { data } = await axiosInstance().patch(
+    `/lectures/bulk-update`,
+    lectures
+  );
+  return data;
+};
+
 export const patchCourse = async (
   info: Partial<Course>,
   courseId: number

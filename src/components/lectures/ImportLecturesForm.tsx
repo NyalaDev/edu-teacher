@@ -25,11 +25,11 @@ const ImportLecturesForm: React.FC<ImportLecturesFormProps> = ({
     },
     validationSchema: Yup.object().shape({
       url: Yup.string()
-        .matches(
-          // eslint-disable-next-line no-useless-escape
-          /^.*(youtu.be\/|list=)([^#\&\?]*).*/,
-          'Please enter a valid youtube playlist URL'
-        )
+        // .matches
+        // eslint-disable-next-line no-useless-escape
+        // /^.*(youtu.be\/|list=)([^#\&\?]*).*/,
+        // 'Please enter a valid youtube playlist URL'
+        // ()
         .required(),
     }),
     onSubmit: async values => {
@@ -50,7 +50,7 @@ const ImportLecturesForm: React.FC<ImportLecturesFormProps> = ({
         <form onSubmit={formik.handleSubmit}>
           <TextInput
             label={t('youtubeURL')}
-            placeholder="https://youtube.com/playlists?s="
+            placeholder="https://youtube.com/playlists?s= or https://vimeo.com/showcase/{id}/"
             error={(touched.url && errors.url && errors.url) || ''}
             {...getFieldProps('url')}
           />

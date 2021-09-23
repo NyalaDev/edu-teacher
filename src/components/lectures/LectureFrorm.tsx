@@ -26,12 +26,12 @@ const LecturesFrom: React.FC<LecturesFromProps> = ({
     },
     validationSchema: Yup.object().shape({
       title: Yup.string().required(),
-      url: Yup.string()
+      /*       url: Yup.string()
         .matches(
           /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})?$/,
           'Please enter a valid youtube URL'
         )
-        .required(),
+        .required(), */
     }),
     onSubmit: async values => {
       try {
@@ -57,7 +57,7 @@ const LecturesFrom: React.FC<LecturesFromProps> = ({
 
           <TextInput
             label={t('youtubeURL')}
-            placeholder="https://youtube.com?watch=1sAw2asd"
+            placeholder="https://youtube.com?watch=1sAw2asd or https://vimeo.com/{id}"
             error={(touched.url && errors.url && errors.url) || ''}
             {...getFieldProps('url')}
           />
